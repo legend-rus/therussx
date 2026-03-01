@@ -15,7 +15,7 @@ header{text-align:center;padding:35px;font-size:32px;letter-spacing:3px;border-b
 .price{color:#00ffff;font-size:20px;margin:15px 0;}
 button{background:#00ffff;border:none;padding:12px 22px;border-radius:10px;cursor:pointer;font-weight:bold;transition:.3s;}
 button:hover{background:#00caca;transform:scale(1.05);}
-form{margin-top:50px;background:#060606;padding:25px;border-radius:20px;border:1px solid #111;box-shadow:0 0 25px #00ffff11;}
+form, #order-form{margin-top:50px;background:#060606;padding:25px;border-radius:20px;border:1px solid #111;box-shadow:0 0 25px #00ffff11;}
 input,select{width:100%;margin:12px 0;padding:14px;background:#0f0f0f;border:1px solid #222;color:white;border-radius:10px;font-family:'Orbitron';}
 footer{margin-top:60px;text-align:center;padding:25px;border-top:1px solid #111;color:#aaa;font-size:14px;}
 .footer-links{margin-top:10px;color:#00ffff;}
@@ -33,66 +33,72 @@ footer{margin-top:60px;text-align:center;padding:25px;border-top:1px solid #111;
 </div>
 <span id="site-title" data-ar="⚡ THE RUSSX SERVICES ⚡" data-en="⚡ THE RUSSX SERVICES ⚡" data-ru="⚡ THE RUSSX СЕРВИСЫ ⚡">⚡ THE RUSSX SERVICES ⚡</span>
 </header>
-<div class="container">
-<div class="services">
+<div class="container"><!-- SERVICES --><div class="services">
 <div class="card">
 <h3 data-ar="حسابات 2010 ~ 2011" data-en="Accounts 2010 ~ 2011" data-ru="Аккаунты 2010 ~ 2011">حسابات 2010 ~ 2011</h3>
 <div class="price">(7$ / 12$)</div>
-<button onclick="choose('حسابات 2010 ~ 2011')" data-ar="طلب" data-en="Order" data-ru="Заказать">طلب</button>
+<button onclick="openForm('حسابات 2010 ~ 2011')" data-ar="طلب" data-en="Order" data-ru="Заказать">طلب</button>
 </div>
 <div class="card">
 <h3 data-ar="فك رباعيات" data-en="Quad Unlock" data-ru="Разблокировка квадро">فك رباعيات</h3>
 <div class="price">(8$)</div>
-<button onclick="choose('فك رباعيات')" data-ar="طلب" data-en="Order" data-ru="Заказать">طلب</button>
+<button onclick="openForm('فك رباعيات')" data-ar="طلب" data-en="Order" data-ru="Заказать">طلب</button>
 </div>
 <div class="card">
 <h3 data-ar="صناعة أدوات" data-en="Tool Development" data-ru="Создание инструментов">صناعة أدوات</h3>
 <div class="price">(10$ / 70$)</div>
-<button onclick="choose('صناعة أدوات')" data-ar="طلب" data-en="Order" data-ru="Заказать">طلب</button>
+<button onclick="openForm('صناعة أدوات')" data-ar="طلب" data-en="Order" data-ru="Заказать">طلب</button>
 </div>
 <div class="card">
 <h3 data-ar="صناعة مواقع" data-en="Website Creation" data-ru="Создание сайтов">صناعة مواقع</h3>
 <div class="price">(7$ / 25$)</div>
-<button onclick="choose('صناعة مواقع')" data-ar="طلب" data-en="Order" data-ru="Заказать">طلب</button>
+<button onclick="openForm('صناعة مواقع')" data-ar="طلب" data-en="Order" data-ru="Заказать">طلب</button>
 </div>
-</div>
-<form onsubmit="sendOrder(event)">
-<h2 id="form-title" data-ar="طلب خدمة" data-en="Service Request" data-ru="Запрос услуги">طلب خدمة</h2>
+</div><!-- ORDER FORM --><div id="order-form" style="display:none;">
+<h2>طلب خدمة: <span id="selected-service"></span></h2>
 <input id="user" placeholder="Username" required>
 <input id="email" type="email" placeholder="Email" required>
-<select id="service">
-<option data-ar="اختر خدمة" data-en="Select Service" data-ru="Выберите услугу">اختر خدمة</option>
-</select>
-<button type="submit" id="submit-btn" data-ar="إرسال" data-en="Send Order" data-ru="Отправить">إرسال</button>
-</form>
-</div>
-<footer>
+<button onclick="sendOrder()">إرسال الطلب</button>
+</div></div><footer>
 © 2026 The RussX — All Rights Reserved
 <div class="footer-links">
 Instagram: therussx404<br>
 Telegram: wxl_e
 </div>
-</footer>
-<script>
-function choose(name){
-document.getElementById("service").innerHTML=`<option>${name}</option>`;
-window.scrollTo(0,document.body.scrollHeight);
+</footer><script>
+function openForm(service){
+document.getElementById("selected-service").textContent = service;
+document.getElementById("order-form").style.display = "block";
+window.scrollTo(0, document.body.scrollHeight);
 }
-function sendOrder(e){
-e.preventDefault();
-let user=document.getElementById("user").value;
-let email=document.getElementById("email").value;
-let service=document.getElementById("service").value;
-let token="8582847416:AAFbHj5ot1hSl_LnAjXFyt2_fv6JU-b1m4k";
-let chat_id="8582847416";
-let text=`🔥 NEW ORDER
-👤 User: ${user}
-📧 Email: ${email}
-🛠 Service: ${service}`;
-fetch(`https://api.telegram.org/bot${token}/sendMessage`,{method:"POST",headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:chat_id,text:text})}).then(()=>{alert("Order Sent ✅");});
+
+function sendOrder(){
+let user = document.getElementById("user").value;
+let email = document.getElementById("email").value;
+let service = document.getElementById("selected-service").textContent;
+
+let token = "8582847416:AAFbHj5ot1hSl_LnAjXFyt2_fv6JU-b1m4k"; // ضع توكن بوتك هنا
+let chat_id = "8582847416"; // ضع رقم الشات تاعك هنا
+
+let text = `🔥 NEW ORDER\n👤 User: ${user}\n📧 Email: ${email}\n🛠 Service: ${service}`;
+
+fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+method: "POST",
+headers: {'Content-Type':'application/json'},
+body: JSON.stringify({chat_id:chat_id, text:text})
+}).then(()=>{
+alert("تم إرسال الطلب ✅ شكراً لك");
+document.getElementById("order-form").style.display = "none";
+document.getElementById("user").value = "";
+document.getElementById("email").value = "";
+});
 }
+
+// LANGUAGE SWITCH
 function setLang(lang){
 document.querySelector('#site-title').textContent = document.querySelector('#site-title').dataset[lang];
-document.querySelector('#form-title').textContent = document.querySelector('#form-title').dataset[lang];
-document.querySelector('#submit-btn').textContent = document.querySelector('#submit-btn').dataset[lang];
-document.querySelectorAll('.card h3').for
+document.querySelectorAll('.card h3').forEach(c=>c.textContent=c.dataset[lang]);
+document.querySelectorAll('.card button').forEach(b=>b.textContent=b.dataset[lang]);
+}
+</script></body>
+</html>
