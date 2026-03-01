@@ -1,0 +1,98 @@
+<!DOCTYPE html><html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The RussX Services</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:'Orbitron',sans-serif;background:radial-gradient(circle at top,#050505,#000);color:white;}
+header{text-align:center;padding:35px;font-size:32px;letter-spacing:3px;border-bottom:1px solid #111;text-shadow:0 0 15px #00ffff55;}
+.container{max-width:1200px;margin:auto;padding:30px 20px;}
+.services{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:25px;}
+.card{background:linear-gradient(145deg,#070707,#0d0d0d);border:1px solid #1a1a1a;border-radius:20px;padding:25px;text-align:center;transition:.35s;position:relative;overflow:hidden;}
+.card:hover{transform:translateY(-8px) scale(1.03);box-shadow:0 0 30px #00ffff33;border-color:#00ffff55;}
+.price{color:#00ffff;font-size:20px;margin:15px 0;}
+button{background:#00ffff;border:none;padding:12px 22px;border-radius:10px;cursor:pointer;font-weight:bold;transition:.3s;}
+button:hover{background:#00caca;transform:scale(1.05);}
+form{margin-top:50px;background:#060606;padding:25px;border-radius:20px;border:1px solid #111;box-shadow:0 0 25px #00ffff11;}
+input,select{width:100%;margin:12px 0;padding:14px;background:#0f0f0f;border:1px solid #222;color:white;border-radius:10px;font-family:'Orbitron';}
+footer{margin-top:60px;text-align:center;padding:25px;border-top:1px solid #111;color:#aaa;font-size:14px;}
+.footer-links{margin-top:10px;color:#00ffff;}
+.language-btns{text-align:center;margin-bottom:10px;}
+.language-btns button{margin:0 5px;background:#111;color:#00ffff;padding:6px 12px;border-radius:8px;border:none;cursor:pointer;transition:.3s;}
+.language-btns button:hover{background:#00caca;color:#000;}
+</style>
+</head>
+<body>
+<header>
+<div class="language-btns">
+<button onclick="setLang('ar')">AR</button>
+<button onclick="setLang('en')">EN</button>
+<button onclick="setLang('ru')">RU</button>
+</div>
+<span id="site-title" data-ar="⚡ THE RUSSX SERVICES ⚡" data-en="⚡ THE RUSSX SERVICES ⚡" data-ru="⚡ THE RUSSX СЕРВИСЫ ⚡">⚡ THE RUSSX SERVICES ⚡</span>
+</header>
+<div class="container">
+<div class="services">
+<div class="card">
+<h3 data-ar="حسابات 2010 ~ 2011" data-en="Accounts 2010 ~ 2011" data-ru="Аккаунты 2010 ~ 2011">حسابات 2010 ~ 2011</h3>
+<div class="price">(7$ / 12$)</div>
+<button onclick="choose('حسابات 2010 ~ 2011')" data-ar="طلب" data-en="Order" data-ru="Заказать">طلب</button>
+</div>
+<div class="card">
+<h3 data-ar="فك رباعيات" data-en="Quad Unlock" data-ru="Разблокировка квадро">فك رباعيات</h3>
+<div class="price">(8$)</div>
+<button onclick="choose('فك رباعيات')" data-ar="طلب" data-en="Order" data-ru="Заказать">طلب</button>
+</div>
+<div class="card">
+<h3 data-ar="صناعة أدوات" data-en="Tool Development" data-ru="Создание инструментов">صناعة أدوات</h3>
+<div class="price">(10$ / 70$)</div>
+<button onclick="choose('صناعة أدوات')" data-ar="طلب" data-en="Order" data-ru="Заказать">طلب</button>
+</div>
+<div class="card">
+<h3 data-ar="صناعة مواقع" data-en="Website Creation" data-ru="Создание сайтов">صناعة مواقع</h3>
+<div class="price">(7$ / 25$)</div>
+<button onclick="choose('صناعة مواقع')" data-ar="طلب" data-en="Order" data-ru="Заказать">طلب</button>
+</div>
+</div>
+<form onsubmit="sendOrder(event)">
+<h2 id="form-title" data-ar="طلب خدمة" data-en="Service Request" data-ru="Запрос услуги">طلب خدمة</h2>
+<input id="user" placeholder="Username" required>
+<input id="email" type="email" placeholder="Email" required>
+<select id="service">
+<option data-ar="اختر خدمة" data-en="Select Service" data-ru="Выберите услугу">اختر خدمة</option>
+</select>
+<button type="submit" id="submit-btn" data-ar="إرسال" data-en="Send Order" data-ru="Отправить">إرسال</button>
+</form>
+</div>
+<footer>
+© 2026 The RussX — All Rights Reserved
+<div class="footer-links">
+Instagram: therussx404<br>
+Telegram: wxl_e
+</div>
+</footer>
+<script>
+function choose(name){
+document.getElementById("service").innerHTML=`<option>${name}</option>`;
+window.scrollTo(0,document.body.scrollHeight);
+}
+function sendOrder(e){
+e.preventDefault();
+let user=document.getElementById("user").value;
+let email=document.getElementById("email").value;
+let service=document.getElementById("service").value;
+let token="8582847416:AAFbHj5ot1hSl_LnAjXFyt2_fv6JU-b1m4k";
+let chat_id="8582847416";
+let text=`🔥 NEW ORDER
+👤 User: ${user}
+📧 Email: ${email}
+🛠 Service: ${service}`;
+fetch(`https://api.telegram.org/bot${token}/sendMessage`,{method:"POST",headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:chat_id,text:text})}).then(()=>{alert("Order Sent ✅");});
+}
+function setLang(lang){
+document.querySelector('#site-title').textContent = document.querySelector('#site-title').dataset[lang];
+document.querySelector('#form-title').textContent = document.querySelector('#form-title').dataset[lang];
+document.querySelector('#submit-btn').textContent = document.querySelector('#submit-btn').dataset[lang];
+document.querySelectorAll('.card h3').for
